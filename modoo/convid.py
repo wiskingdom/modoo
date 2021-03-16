@@ -3,9 +3,7 @@ import json
 import re
 
 
-def main():
-    input_json_name = './data/za2_inputForConvId/SXZA2002003110-mg.json'
-    output_json_name = './out/SXZA2002003110-m-id.json'
+def run(input_json_path, output_json_path):
 
     def conv_id(_id):
         id_pattern = r'^(\w+).+?(\w+)$'
@@ -43,10 +41,10 @@ def main():
     def fix_data(data):
         return {**data, 'document': fix_docs(data['document'])}
 
-    with open(input_json_name, 'r', encoding='utf8') as file:
+    with open(input_json_path, 'r', encoding='utf8') as file:
         data = json.load(file)
 
     fixed_data = fix_data(data)
 
-    with open(output_json_name, 'w', encoding='utf8') as file:
+    with open(output_json_path, 'w', encoding='utf8') as file:
         json.dump(fixed_data, file, indent=4, ensure_ascii=False)

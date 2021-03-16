@@ -5,15 +5,15 @@ description = "a CLI tool set for Modoo Corpus build"
 authors = ["Yeonwoo Kim <wiskingdom@gmail.com>"]
 
 [tool.poetry.scripts]
-mgza = "modoo.mergeza:main"
-idza = "modoo.convid:main"
-mdcli = "modoo.cli:app"
+mdcli = "modoo.cli:main"
+
 
 [tool.poetry.dependencies]
 python = "^3.7"
 openpyxl = "^3.0.7"
 jsonschema = "^3.2.0"
 typer = "^0.3.2"
+
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

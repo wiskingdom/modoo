@@ -7,26 +7,16 @@ from openpyxl import Workbook
 from modoo.zafuncs import compare_num_za, merge_docs, shake_docs
 
 
-def main():
-
-    zas_file_name = './data/NXZA1902102180.json'
-    zao_file_name = './data/NXZA2002102260.json'
-    new_file_id = 'NXZA2002003110'
-
-    """
-    zas_file_name = './data/SXZA1902102180.json'
-    zao_file_name = './data/SXZA2002102260.json'
-    new_file_id = 'SXZA2002003110'
-    """
+def run(zas_file_path, zao_file_path, new_file_id):
 
     new_file_title = f'국립국어원 신문 말뭉치 추출 {new_file_id}'
     merged_file_name = f'./out/{new_file_id}.json'
-    num_check_file_name = f'./out/{new_file_id}.xlsx'
+    num_check_file_name = f'./out/{new_file_id}_za_num.xlsx'
 
-    with open(zas_file_name, 'r', encoding='utf8') as file:
+    with open(zas_file_path, 'r', encoding='utf8') as file:
         zas_data = json.load(file)
 
-    with open(zao_file_name, 'r', encoding='utf8') as file:
+    with open(zao_file_path, 'r', encoding='utf8') as file:
         zao_data = json.load(file)
 
     zas_docs = zas_data['document']
