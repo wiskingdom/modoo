@@ -1,16 +1,13 @@
 [tool.poetry]
 name = "modoo"
 version = "0.1.0"
-description = "a tool set for modoo corpus"
+description = "a CLI tool set for Modoo Corpus build"
 authors = ["Yeonwoo Kim <wiskingdom@gmail.com>"]
 
 [tool.poetry.scripts]
 mgza = "modoo.mergeza:main"
-iddp = "modoo.fixid:main"
-meta = "modoo.getdocmeta:main"
 idza = "modoo.convid:main"
-map = "modoo.mapid:main"
-vali = "modoo.validate:main"
+mdcli = "modoo.cli:app"
 
 [tool.poetry.dependencies]
 python = "^3.7"

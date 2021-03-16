@@ -85,7 +85,7 @@ def id_map_reducer(acc, dp_record):
     rw_id, rw_form, rw_order = itemgetter('id', 'form', 'order')(rw_record)
     id_delay = rw_order - dp_order
     id_step = rw_order - last_order
-    exact_form = None if dp_form == rw_form else False
+    exact_form = True if dp_form == rw_form else False
 
     mapRecord = dict(dp_id=dp_id, rw_id=rw_id, dp_form=dp_form, rw_form=rw_form,
                      id_delay=id_delay, id_step=id_step, exact_form=exact_form)

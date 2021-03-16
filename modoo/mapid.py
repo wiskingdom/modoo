@@ -3,29 +3,25 @@ from functools import reduce
 from os import listdir
 import json
 from collections import defaultdict
-import re
 # third-parties
 from openpyxl import Workbook
 # customs
 from modoo.idfuncs import jsons_from_dir, get_id_form, by_doc_id, get_id_map
 
 
-def main():
-    dp_file_name = './data/dp1_inputForMapId/SXDP2002103120.json'
-    rw_dir = './data/rw_data'
-
+def run(dp_file_path, rw_dir_path, result_path):
     def each_item_by_name(item_name):
         return lambda acc, curr: [*acc, *curr[item_name]]
 
-    with open(dp_file_name, 'r', encoding='utf8') as file:
+    with open(dp_file_path, 'r', encoding='utf8') as file:
         dp_data = json.load(file)
 
     dp_docs = dp_data['document']
     dp_snts = reduce(each_item_by_name('sentence'), dp_docs, [])
     dp_id_forms = map(get_id_form, dp_snts)
 
-    rw_file_names = listdir(rw_dir)
-    rw_data = map(jsons_from_dir(rw_dir), rw_file_names)
+    rw_file_names = listdir(rw_dir_path)
+    rw_data = map(jsons_from_dir(rw_dir_path), rw_file_names)
     rw_docs = reduce(each_item_by_name('document'), rw_data, [])
     rw_utts = reduce(each_item_by_name('utterance'), rw_docs, [])
     rw_id_forms = map(get_id_form, rw_utts)
@@ -51,4 +47,4 @@ def main():
     for row in dp_id_flats:
         ws.append([*row.values()])
 
-    wb.save('./out/dp_id_map.xlsx')
+    wb.save(result_path)

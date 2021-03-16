@@ -4,11 +4,7 @@ import json
 import re
 
 
-def main():
-    input_json_name = './data/SXDP2002103120+.json'
-    id_map_file_name = './data/dp_rw_id_map.txt'
-
-    output_json_name = './out/SXDP2002103120.json'
+def run(input_json_path, id_map_file_path, output_json_path):
 
     def reducer(acc, curr):
         id_pattern = r'(.+)\t(.+)'
@@ -16,7 +12,7 @@ def main():
         acc[key] = value
         return acc
 
-    with open(id_map_file_name, 'r', encoding='utf8') as file:
+    with open(id_map_file_path, 'r', encoding='utf8') as file:
         dp_rw_id_map = reduce(reducer, file.read().strip().split('\n'), {})
 
     def fix_id(id):
@@ -37,10 +33,10 @@ def main():
     def fix_data(data):
         return {**data, 'document': fix_docs(data['document'])}
 
-    with open(input_json_name, 'r', encoding='utf8') as file:
+    with open(input_json_path, 'r', encoding='utf8') as file:
         data = json.load(file)
 
     fixed_data = fix_data(data)
 
-    with open(output_json_name, 'w', encoding='utf8') as file:
+    with open(output_json_path, 'w', encoding='utf8') as file:
         json.dump(fixed_data, file, indent=4, ensure_ascii=False)

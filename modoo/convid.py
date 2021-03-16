@@ -1,11 +1,10 @@
 # built-ins
-from functools import reduce
 import json
 import re
 
 
 def main():
-    input_json_name = './data/SXZA2002003110-m.json'
+    input_json_name = './data/za2_inputForConvId/SXZA2002003110-mg.json'
     output_json_name = './out/SXZA2002003110-m-id.json'
 
     def conv_id(_id):
