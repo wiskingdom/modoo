@@ -1,5 +1,6 @@
 # built-ins
 import json
+import os
 from operator import itemgetter
 # third-parties
 from openpyxl import Workbook
@@ -29,6 +30,8 @@ def run(zas_file_path, zao_file_path, new_file_id):
     metadata = {**zao_data['metadata'], 'title': new_file_title}
 
     merged = {'id': new_file_id, 'metadata': metadata, 'document': za_docs}
+
+    os.makedirs('./out')
 
     with open(merged_file_name, 'w', encoding='utf8') as file:
         json.dump(merged, file, indent=4, ensure_ascii=False)
