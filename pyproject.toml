@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "modoo"
+version = "0.1.0"
+description = "a tool set for modoo corpus"
+authors = ["Yeonwoo Kim <wiskingdom@gmail.com>"]
+
+[tool.poetry.scripts]
+mgza = "modoo.mergeza:main"
+iddp = "modoo.fixid:main"
+meta = "modoo.getdocmeta:main"
+idza = "modoo.convid:main"
+map = "modoo.mapid:main"
+vali = "modoo.validate:main"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+openpyxl = "^3.0.7"
+jsonschema = "^3.2.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+autopep8 = "^1.5.6"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
