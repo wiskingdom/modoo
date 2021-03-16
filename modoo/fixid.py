@@ -2,9 +2,10 @@
 from functools import reduce
 import json
 import re
+import os
 
 
-def run(input_json_path, id_map_file_path, output_json_path):
+def run(input_json_path, id_map_file_path):
 
     def reducer(acc, curr):
         id_pattern = r'(.+)\t(.+)'
@@ -38,5 +39,9 @@ def run(input_json_path, id_map_file_path, output_json_path):
 
     fixed_data = fix_data(data)
 
-    with open(output_json_path, 'w', encoding='utf8') as file:
+    os.makedirs('./out', exist_ok=True)
+    ext_removed = os.path.splitext(os.path.normpath(input_json_path))[0]
+    file_name = ext_removed.split(os.path.sep)[-1]
+
+    with open(f'./out/{file_name}.idfix.json', 'w', encoding='utf8') as file:
         json.dump(fixed_data, file, indent=4, ensure_ascii=False)

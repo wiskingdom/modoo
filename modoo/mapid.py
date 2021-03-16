@@ -1,6 +1,6 @@
 # built-ins
 from functools import reduce
-from os import listdir
+from os import listdir, path, makedirs
 import json
 from collections import defaultdict
 # third-parties
@@ -9,11 +9,11 @@ from openpyxl import Workbook
 from modoo.idfuncs import jsons_from_dir, get_id_form, by_doc_id, get_id_map
 
 
-def run(input_file_path, rw_dir_path, result_path):
+def run(input_json_path, rw_dir_path):
     def each_item_by_name(item_name):
         return lambda acc, curr: [*acc, *curr[item_name]]
 
-    with open(input_file_path, 'r', encoding='utf8') as file:
+    with open(input_json_path, 'r', encoding='utf8') as file:
         dp_data = json.load(file)
 
     dp_docs = dp_data['document']
@@ -47,4 +47,8 @@ def run(input_file_path, rw_dir_path, result_path):
     for row in dp_id_flats:
         ws.append([*row.values()])
 
-    wb.save(result_path)
+    makedirs('./out', exist_ok=True)
+    ext_removed = path.splitext(path.normpath(input_json_path))[0]
+    file_name = ext_removed.split(path.sep)[-1]
+
+    wb.save(f'./out/{file_name}.idmap.xlsx')
