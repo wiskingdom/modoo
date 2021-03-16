@@ -9,11 +9,11 @@ from openpyxl import Workbook
 from modoo.idfuncs import jsons_from_dir, get_id_form, by_doc_id, get_id_map
 
 
-def run(dp_file_path, rw_dir_path, result_path):
+def run(input_file_path, rw_dir_path, result_path):
     def each_item_by_name(item_name):
         return lambda acc, curr: [*acc, *curr[item_name]]
 
-    with open(dp_file_path, 'r', encoding='utf8') as file:
+    with open(input_file_path, 'r', encoding='utf8') as file:
         dp_data = json.load(file)
 
     dp_docs = dp_data['document']
@@ -40,7 +40,7 @@ def run(dp_file_path, rw_dir_path, result_path):
     wb = Workbook()
     ws = wb.active
 
-    header = ['dp_id', 'rw_id', 'dp_form', 'rw_form',
+    header = ['an_id', 'rw_id', 'an_form', 'rw_form',
               'id_delay', 'id_step', 'form_exact']
     ws.append(header)
 

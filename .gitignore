@@ -2,6 +2,7 @@
 .venv
 .python-version
 .vscode
+dist
 tests
 data
 out

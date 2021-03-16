@@ -9,7 +9,9 @@ from modoo.zafuncs import compare_num_za, merge_docs, shake_docs
 
 def run(zas_file_path, zao_file_path, new_file_id):
 
-    new_file_title = f'국립국어원 신문 말뭉치 추출 {new_file_id}'
+    title_map = {'N': '신문', 'S': '구어'}
+    title_type = title_map[new_file_id[0]]
+    new_file_title = f'국립국어원 {title_type} 말뭉치 추출 {new_file_id}'
     merged_file_name = f'./out/{new_file_id}.json'
     num_check_file_name = f'./out/{new_file_id}_za_num.xlsx'
 

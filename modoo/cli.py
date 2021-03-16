@@ -5,8 +5,8 @@ app = typer.Typer()
 
 
 @app.command()
-def map_id(dp_file_path: str, rw_dir_path: str, result_path: str):
-    mapid.run(dp_file_path, rw_dir_path, result_path)
+def map_id(input_file_path: str, rw_dir_path: str, result_path: str):
+    mapid.run(input_file_path, rw_dir_path, result_path)
 
 
 @app.command()
