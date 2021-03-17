@@ -15,6 +15,7 @@ def run(zas_file_path, zao_file_path, new_file_id):
     merged_file_name = f'./out/{new_file_id}.json'
     num_check_file_name = f'./out/{new_file_id}.za_num.xlsx'
 
+    print('read files')
     with open(zas_file_path, 'r', encoding='utf8') as file:
         zas_data = json.load(file)
 
@@ -23,7 +24,11 @@ def run(zas_file_path, zao_file_path, new_file_id):
 
     zas_docs = zas_data['document']
     zao_docs = zao_data['document']
+
+    print('merge ZA')
     zaso_docs = merge_docs(zas_docs, zao_docs)
+
+    print('shake ZA')
     za_docs = shake_docs(zaso_docs)
 
     metadata = {**zao_data['metadata'], 'title': new_file_title}

@@ -16,7 +16,6 @@ def merge_docs(zas_docs, zao_docs):
         zao = acc[_id]['ZA']
         acc[_id]['ZA'] = [*zas, *zao]
         return acc
-
     zao_docs_by_id = reduce(by_id_reducer, deepcopy(zao_docs), {})
     return [*reduce(merge_reducer, zas_docs, zao_docs_by_id).values()]
 
