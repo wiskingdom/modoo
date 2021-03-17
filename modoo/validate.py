@@ -22,8 +22,15 @@ def run(input_json_path, schema_path):
 
     errors = sorted(v.iter_errors(data), key=lambda e: e.path)
 
-    with open(f'./out/{file_name}.vallog.txt', 'w', encoding='utf8') as file:
-        sys.stdout = file
-        for error in errors:
-            print(error)
-            print('-----------------------')
+    out_path = f'./out/{file_name}.vallog.txt'
+
+    print(f'write: {out_path}') if len(errors) else print('passed all!!')
+
+    if len(errors):
+        with open(out_path, 'w', encoding='utf8') as file:
+            sys.stdout = file
+            for error in errors:
+                print(error)
+                print('-----------------------')
+
+    print('DONE!!')

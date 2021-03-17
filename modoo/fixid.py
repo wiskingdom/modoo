@@ -25,8 +25,14 @@ def run(input_json_path, id_map_file_path):
     def fix_snts(snts):
         return [*map(fix_snt, snts)]
 
+    def conv_doc_id(_id):
+        return f'{_id}.1'
+
     def fix_doc(doc):
-        return {**doc, 'sentence': fix_snts(doc['sentence'])}
+        _id = conv_doc_id(doc['id'])
+        print(f'process: {_id}')
+        return {**doc, 'id': _id,
+                'sentence': fix_snts(doc['sentence'])}
 
     def fix_docs(docs):
         return [*map(fix_doc, docs)]
@@ -43,5 +49,11 @@ def run(input_json_path, id_map_file_path):
     ext_removed = os.path.splitext(os.path.normpath(input_json_path))[0]
     file_name = ext_removed.split(os.path.sep)[-1]
 
-    with open(f'./out/{file_name}.idfix.json', 'w', encoding='utf8') as file:
+    out_path = f'./out/{file_name}.idfix.json'
+
+    print(f'write: {out_path}')
+
+    with open(out_path, 'w', encoding='utf8') as file:
         json.dump(fixed_data, file, indent=4, ensure_ascii=False)
+
+    print('DONE!!')

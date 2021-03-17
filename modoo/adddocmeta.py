@@ -2,42 +2,53 @@
 from functools import reduce
 from os import listdir, path, makedirs
 import json
-# customs
-from modoo.idfuncs import jsons_from_dir
 
 
-def run(input_json_path, rw_dir_path, annotation_level):
+def run(input_json_path, rw_dir_path):
 
-    rw_file_names = listdir(rw_dir_path)
-    rw_data = map(jsons_from_dir(rw_dir_path), rw_file_names)
+    def get_meta(doc_record):
+        return (doc_record['id'], doc_record['metadata'])
 
-    def by_meta(acc, curr):
-        _id = curr['id']
-        meta = curr['metadata']
-        acc[_id] = meta
-        return acc
+    def by_doc_reducer(rw_dir_path):
+        def aux(acc, file_path):
+            print(f'read: {file_path}')
+            with open(path.join(rw_dir_path, file_path), 'r', encoding='utf8') as file:
+                json_item = json.load(file)
 
-    rw_meta_map = reduce(by_meta, rw_data, {})
+            acc = {**acc,
+                   **dict(map(get_meta, json_item['document']))}
+            return acc
+        return aux
 
-    def add_meta(doc):
-        _id = doc['id']
-        metadata = {**rw_meta_map[_id], 'annotation_level': [annotation_level]}
-        return {**doc, 'metadata': metadata}
+    def add_meta(meta_by_doc):
+        def aux(doc):
+            _id = doc['id']
+            metadata = meta_by_doc[_id] if _id in meta_by_doc else {}
+            return {**doc, 'metadata': metadata}
+        return aux
 
-    def add_to_docs(docs):
-        return [*map(add_meta, docs)]
+    def add_to_docs(meta_by_doc, docs):
+        return [*map(add_meta(meta_by_doc), docs)]
 
-    def add_to_data(data):
-        return {**data, 'document': add_to_docs(data['document'])}
+    def add_to_data(meta_by_doc, data):
+        return {**data, 'document': add_to_docs(meta_by_doc, data['document'])}
 
     with open(input_json_path, 'r', encoding='utf8') as file:
         data = json.load(file)
 
-    added_data = add_to_data(data)
+    json_paths = filter(lambda x: x.endswith('.json'), listdir(rw_dir_path))
+    meta_by_doc = reduce(by_doc_reducer(rw_dir_path), json_paths, {})
+
+    added_data = add_to_data(meta_by_doc, data)
 
     makedirs('./out', exist_ok=True)
     ext_removed = path.splitext(path.normpath(input_json_path))[0]
     file_name = ext_removed.split(path.sep)[-1]
 
-    with open(f'./out/{file_name}.docmeta.json', 'w', encoding='utf8') as file:
+    out_path = f'./out/{file_name}.docmeta.json'
+
+    print(f'write: {out_path}')
+    with open(out_path, 'w', encoding='utf8') as file:
         json.dump(added_data, file, indent=4, ensure_ascii=False)
+
+    print('DONE!!')

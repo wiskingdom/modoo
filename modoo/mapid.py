@@ -51,4 +51,8 @@ def run(input_json_path, rw_dir_path):
     ext_removed = path.splitext(path.normpath(input_json_path))[0]
     file_name = ext_removed.split(path.sep)[-1]
 
-    wb.save(f'./out/{file_name}.idmap.xlsx')
+    out_path = f'./out/{file_name}.idmap.xlsx'
+    print(f'write: {out_path}')
+
+    wb.save(out_path)
+    print('DONE!!')

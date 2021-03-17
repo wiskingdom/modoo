@@ -13,7 +13,7 @@ def run(zas_file_path, zao_file_path, new_file_id):
     title_type = title_map[new_file_id[0]]
     new_file_title = f'국립국어원 {title_type} 말뭉치 추출 {new_file_id}'
     merged_file_name = f'./out/{new_file_id}.json'
-    num_check_file_name = f'./out/{new_file_id}_za_num.xlsx'
+    num_check_file_name = f'./out/{new_file_id}.za_num.xlsx'
 
     with open(zas_file_path, 'r', encoding='utf8') as file:
         zas_data = json.load(file)
@@ -32,6 +32,8 @@ def run(zas_file_path, zao_file_path, new_file_id):
 
     os.makedirs('./out', exist_ok=True)
 
+    print(f'write: {merged_file_name}')
+
     with open(merged_file_name, 'w', encoding='utf8') as file:
         json.dump(merged, file, indent=4, ensure_ascii=False)
 
@@ -41,4 +43,7 @@ def run(zas_file_path, zao_file_path, new_file_id):
     for row in compare_num_za(zas_docs, zao_docs, zaso_docs, za_docs):
         ws.append(row)
 
+    print(f'write: {num_check_file_name}')
+
     wb.save(num_check_file_name)
+    print('DONE!!')
