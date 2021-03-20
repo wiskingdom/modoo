@@ -43,6 +43,7 @@ def run(input_json_path, id_map_file_path):
     with open(input_json_path, 'r', encoding='utf8') as file:
         data = json.load(file)
 
+    print(f'read: {id_map_file_path}')
     print('process: fix id')
 
     fixed_data = fix_data(data)
