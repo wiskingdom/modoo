@@ -13,13 +13,16 @@ def run(input_json_path, rw_dir_path):
     def each_item_by_name(item_name):
         return lambda acc, curr: [*acc, *curr[item_name]]
 
-    print('read files')
+    print(f'read: {input_json_path}')
+
     with open(input_json_path, 'r', encoding='utf8') as file:
         dp_data = json.load(file)
 
     dp_docs = dp_data['document']
     dp_snts = reduce(each_item_by_name('sentence'), dp_docs, [])
     dp_id_forms = map(get_id_form, dp_snts)
+
+    print(f'read: {rw_dir_path}')
 
     rw_file_names = listdir(rw_dir_path)
     rw_data = map(jsons_from_dir(rw_dir_path), rw_file_names)

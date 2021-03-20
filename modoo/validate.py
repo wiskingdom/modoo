@@ -8,8 +8,12 @@ from jsonschema import Draft7Validator
 
 def run(input_json_path, schema_path):
 
+    print(f'read: {input_json_path}')
+
     with open(input_json_path, 'r', encoding='utf8') as file:
         data = json.load(file)
+
+    print(f'read: {schema_path}')
 
     with open(schema_path, 'r', encoding='utf8') as file:
         schema = json.load(file)

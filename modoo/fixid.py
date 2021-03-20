@@ -30,7 +30,6 @@ def run(input_json_path, id_map_file_path):
 
     def fix_doc(doc):
         _id = conv_doc_id(doc['id'])
-        print(f'process: {_id}')
         return {**doc, 'id': _id,
                 'sentence': fix_snts(doc['sentence'])}
 
@@ -40,6 +39,7 @@ def run(input_json_path, id_map_file_path):
     def fix_data(data):
         return {**data, 'document': fix_docs(data['document'])}
 
+    print(f'read: {input_json_path}')
     with open(input_json_path, 'r', encoding='utf8') as file:
         data = json.load(file)
 

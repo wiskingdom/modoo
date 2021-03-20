@@ -17,7 +17,7 @@ def jsons_from_dir(dir_name: str):
 
 def parse_id(_id):
     is_spoken = _id.startswith('S')
-    id_pattern = r'^(\w+)(.+?)(\w+)$' if is_spoken else r'^(.+)\.(\w+)\.(\w+)$'
+    id_pattern = r'^(\w+)(.+?)(\d+)$' if is_spoken else r'^(.+)\.(\w+)\.(\w+)$'
     doc_id, para_id, snt_id = re.match(id_pattern, _id).groups()
     order = int(snt_id) if is_spoken else int(para_id) * 1000 + int(snt_id)
     return (doc_id, int(order))

@@ -58,14 +58,14 @@ def run(input_json_path):
         return reduce(reducer, snts, [])
 
     def check_doc(doc):
-        _id = doc['id']
-        print(f'process: {_id}')
         return check_snts(doc['sentence'])
 
     def check_docs(docs):
         def reducer(acc, curr):
             return [*acc, *check_doc(curr)]
         return reduce(reducer, docs, [])
+
+    print(f'read: {input_json_path}')
 
     with open(input_json_path, 'r', encoding='utf8') as file:
         data = json.load(file)
