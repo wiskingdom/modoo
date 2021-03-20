@@ -33,7 +33,7 @@ def run(input_json_path, rw_dir_path):
     rw_by_doc = reduce(by_doc_id, rw_id_forms, defaultdict(list))
     dp_by_doc = reduce(by_doc_id, dp_id_forms, defaultdict(list))
 
-    print('get id map')
+    print('process: get id map')
 
     def id_mapper(kv):
         k, v = kv

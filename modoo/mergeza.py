@@ -7,7 +7,7 @@ from openpyxl import Workbook
 from modoo.zafuncs import compare_num_za, merge_docs, fold_docs
 
 
-def run(zas_file_path, zao_file_path, new_file_id):
+def run(za_s_file_path, za_o_file_path, new_file_id):
 
     title_map = {'N': '신문', 'S': '구어'}
     title_type = title_map[new_file_id[0]]
@@ -15,20 +15,21 @@ def run(zas_file_path, zao_file_path, new_file_id):
     merged_file_name = f'./out/{new_file_id}.json'
     num_check_file_name = f'./out/{new_file_id}.za_num.xlsx'
 
-    print('read files')
-    with open(zas_file_path, 'r', encoding='utf8') as file:
+    print(f'read: {za_s_file_path}')
+    with open(za_s_file_path, 'r', encoding='utf8') as file:
         za_s_data = json.load(file)
 
-    with open(zao_file_path, 'r', encoding='utf8') as file:
+    print(f'read: {za_o_file_path}')
+    with open(za_o_file_path, 'r', encoding='utf8') as file:
         za_o_data = json.load(file)
 
     za_s_docs = za_s_data['document']
     za_o_docs = za_o_data['document']
 
-    print('merge ZA')
+    print('process: merge ZA')
     za_so_docs = merge_docs(za_s_docs, za_o_docs)
 
-    print('fold & sort ZA')
+    print('process: fold & sort ZA')
     za_docs = fold_docs(za_so_docs)
 
     metadata = {**za_o_data['metadata'], 'title': new_file_title}

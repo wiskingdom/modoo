@@ -70,6 +70,7 @@ def run(input_json_path):
     with open(input_json_path, 'r', encoding='utf8') as file:
         data = json.load(file)
 
+    print('process: check word id, begin and end')
     wd_check_logs = check_docs(data['document'])
 
     os.makedirs('./out', exist_ok=True)

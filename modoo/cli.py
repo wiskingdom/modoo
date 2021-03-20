@@ -25,8 +25,8 @@ def valid(input_json_path: str, schema_path: str):
 
 
 @app.command()
-def merge_za(zas_file_path: str, zao_file_path: str, new_file_id: str):
-    mergeza.run(zas_file_path, zao_file_path, new_file_id)
+def merge_za(za_s_file_path: str, za_o_file_path: str, new_file_id: str):
+    mergeza.run(za_s_file_path, za_o_file_path, new_file_id)
 
 
 @app.command()

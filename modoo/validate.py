@@ -22,6 +22,8 @@ def run(input_json_path, schema_path):
     ext_removed = os.path.splitext(os.path.normpath(input_json_path))[0]
     file_name = ext_removed.split(os.path.sep)[-1]
 
+    print('process: validate with schema')
+
     v = Draft7Validator(schema)
 
     errors = sorted(v.iter_errors(data), key=lambda e: e.path)

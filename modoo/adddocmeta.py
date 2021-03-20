@@ -43,6 +43,7 @@ def run(input_json_path, rw_dir_path):
 
     meta_by_doc = reduce(by_doc_reducer(rw_dir_path), json_paths, {})
 
+    print('process: add doc metadata')
     added_data = add_to_data(meta_by_doc, data)
 
     makedirs('./out', exist_ok=True)
