@@ -16,7 +16,7 @@ def jsons_from_dir(dir_name: str):
 
 
 def parse_id(_id):
-    id_pattern = r'^(.+?)(\d+)$'
+    id_pattern = r'^(\w+).+?(\w+)$'
     doc_id, snt_order = re.match(id_pattern, _id).groups()
     return (doc_id, int(snt_order))
 
