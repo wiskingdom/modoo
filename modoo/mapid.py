@@ -47,7 +47,7 @@ def run(input_json_path, rw_dir_path):
     ws = wb.active
 
     header = ['an_id', 'rw_id', 'an_form', 'rw_form',
-              'id_delay', 'id_step', 'form_exact']
+              'id_delay', 'id_step', 'exact_form', 'exact_id']
     ws.append(header)
 
     for row in dp_id_flats:

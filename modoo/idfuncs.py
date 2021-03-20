@@ -16,11 +16,9 @@ def jsons_from_dir(dir_name: str):
 
 
 def parse_id(_id):
-    is_spoken = _id.startswith('S')
-    id_pattern = r'^(\w+)(.+?)(\d+)$' if is_spoken else r'^(.+)\.(\w+)\.(\w+)$'
-    doc_id, para_id, snt_id = re.match(id_pattern, _id).groups()
-    order = int(snt_id) if is_spoken else int(para_id) * 1000 + int(snt_id)
-    return (doc_id, int(order))
+    id_pattern = r'^(.+?)(\d+)$'
+    doc_id, snt_order = re.match(id_pattern, _id).groups()
+    return (doc_id, int(snt_order))
 
 
 def get_id_form(record):
@@ -86,15 +84,17 @@ def id_map_reducer(acc, dp_record):
     id_delay = rw_order - dp_order
     id_step = rw_order - last_order
     exact_form = True if dp_form == rw_form else False
+    exact_id = True if dp_id == rw_id else False
 
-    mapRecord = dict(dp_id=dp_id, rw_id=rw_id, dp_form=dp_form, rw_form=rw_form,
-                     id_delay=id_delay, id_step=id_step, exact_form=exact_form)
+    mapRecord = dict(dp_id=dp_id, rw_id=rw_id, dp_form=dp_form,
+                     rw_form=rw_form, id_delay=id_delay, id_step=id_step,
+                     exact_form=exact_form, exact_id=exact_id)
 
     acc['last_order'] = rw_order
     acc['delay'] = id_delay
     acc['mapRecord'] = [*acc['mapRecord'], mapRecord]
 
-    if dp_form == rw_form:
+    if exact_form:
         mark_index = index_of_order(rw_records, rw_order)
         acc['rw_records'][mark_index]['mark'] = False
 
