@@ -4,7 +4,7 @@ import os
 # third-parties
 from openpyxl import Workbook
 # customs
-from modoo.zafuncs import compare_num_za, merge_docs, shake_docs
+from modoo.zafuncs import compare_num_za, merge_docs, fold_docs
 
 
 def run(zas_file_path, zao_file_path, new_file_id):
@@ -17,21 +17,21 @@ def run(zas_file_path, zao_file_path, new_file_id):
 
     print('read files')
     with open(zas_file_path, 'r', encoding='utf8') as file:
-        zas_data = json.load(file)
+        za_s_data = json.load(file)
 
     with open(zao_file_path, 'r', encoding='utf8') as file:
-        zao_data = json.load(file)
+        za_o_data = json.load(file)
 
-    zas_docs = zas_data['document']
-    zao_docs = zao_data['document']
+    za_s_docs = za_s_data['document']
+    za_o_docs = za_o_data['document']
 
     print('merge ZA')
-    zaso_docs = merge_docs(zas_docs, zao_docs)
+    za_so_docs = merge_docs(za_s_docs, za_o_docs)
 
-    print('shake ZA')
-    za_docs = shake_docs(zaso_docs)
+    print('fold & sort ZA')
+    za_docs = fold_docs(za_so_docs)
 
-    metadata = {**zao_data['metadata'], 'title': new_file_title}
+    metadata = {**za_o_data['metadata'], 'title': new_file_title}
 
     merged = {'id': new_file_id, 'metadata': metadata, 'document': za_docs}
 
@@ -45,7 +45,7 @@ def run(zas_file_path, zao_file_path, new_file_id):
     wb = Workbook()
     ws = wb.active
 
-    for row in compare_num_za(zas_docs, zao_docs, zaso_docs, za_docs):
+    for row in compare_num_za(za_s_docs, za_o_docs, za_so_docs, za_docs):
         ws.append(row)
 
     print(f'write: {num_check_file_name}')
