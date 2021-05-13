@@ -23,7 +23,8 @@ def run(input_json_path, id_map_file_path):
         return {**snt, 'id': fix_id(snt['id'])}
 
     def fix_snts(snts):
-        return [*map(fix_snt, snts)]
+        has_form_sents = filter(lambda snt: snt['form'], snts)
+        return [*map(fix_snt, has_form_sents)]
 
     def conv_doc_id(_id):
         return f'{_id}.1'
@@ -46,7 +47,8 @@ def run(input_json_path, id_map_file_path):
     print(f'read: {id_map_file_path}')
     print('process: fix id')
 
-    fixed_data = fix_data(data)
+    target_data = data[0] if isinstance(data, list) else data
+    fixed_data = fix_data(target_data)
 
     os.makedirs('./out', exist_ok=True)
     ext_removed = os.path.splitext(os.path.normpath(input_json_path))[0]

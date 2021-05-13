@@ -1,5 +1,5 @@
 import typer
-from modoo import mapid, fixid, adddocmeta, validate, mergeza, convid, checkwd
+from modoo import mapid, fixid, adddocmeta, validate, mergeza, convid, checkwd, idform
 
 app = typer.Typer()
 
@@ -37,6 +37,11 @@ def conv_id(input_json_path: str):
 @app.command()
 def check_wd(input_json_path: str):
     checkwd.run(input_json_path)
+
+
+@app.command()
+def id_form(input_json_path: str):
+    idform.run(input_json_path)
 
 
 def main():

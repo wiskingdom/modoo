@@ -39,4 +39,5 @@ def run(input_json_path, schema_path):
                 print(error)
                 print('-----------------------')
 
+    sys.stdout = sys.__stdout__
     print('DONE!!')

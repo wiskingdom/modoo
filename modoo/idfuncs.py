@@ -64,7 +64,7 @@ def id_map_reducer(acc, dp_record):
 
     if dp_form != rw_record['form']:
 
-        start = curr_order - 2
+        start = curr_order - 4
         end = curr_order + 5
 
         def target_filter(record):

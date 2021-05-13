@@ -23,6 +23,8 @@ def run(input_json_path, rw_dir_path):
         def aux(doc):
             _id = doc['id']
             metadata = meta_by_doc[_id] if _id in meta_by_doc else {}
+            metadata.pop('speaker', None)
+            metadata.pop('original_topic', None)
             return {**doc, 'metadata': metadata}
         return aux
 
@@ -44,7 +46,8 @@ def run(input_json_path, rw_dir_path):
     meta_by_doc = reduce(by_doc_reducer(rw_dir_path), json_paths, {})
 
     print('process: add doc metadata')
-    added_data = add_to_data(meta_by_doc, data)
+    target_data = data[0] if isinstance(data, list) else data
+    added_data = add_to_data(meta_by_doc, target_data)
 
     makedirs('./out', exist_ok=True)
     ext_removed = path.splitext(path.normpath(input_json_path))[0]

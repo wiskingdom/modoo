@@ -18,7 +18,11 @@ def run(input_json_path, rw_dir_path):
     with open(input_json_path, 'r', encoding='utf8') as file:
         dp_data = json.load(file)
 
-    dp_docs = dp_data['document']
+    if isinstance(dp_data, list):
+        print(len(dp_data))
+
+    dp_docs = dp_data[0]['document'] if isinstance(
+        dp_data, list) else dp_data['document']
     dp_snts = reduce(each_item_by_name('sentence'), dp_docs, [])
     dp_id_forms = map(get_id_form, dp_snts)
 

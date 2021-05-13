@@ -46,11 +46,15 @@ def run(input_json_path):
         return map(check_dpwd(snt_form, snt_id), dpwds)
 
     def check_snt(snt_record):
-        snt_id, snt_form, wds, dpwsds = itemgetter(
-            'id', 'form', 'word', 'DP')(snt_record)
+        snt_id, snt_form, wds = itemgetter(
+            'id', 'form', 'word')(snt_record)
 
-        return [*check_wds(snt_form, snt_id, wds),
-                *check_dpwds(snt_form, snt_id, dpwsds)]
+        if 'DP' in snt_record:
+            dpwsds = snt_record['DP']
+            return [*check_wds(snt_form, snt_id, wds),
+                    *check_dpwds(snt_form, snt_id, dpwsds)]
+        else:
+            return [*check_wds(snt_form, snt_id, wds)]
 
     def check_snts(snts):
         def reducer(acc, curr):
@@ -70,8 +74,10 @@ def run(input_json_path):
     with open(input_json_path, 'r', encoding='utf8') as file:
         data = json.load(file)
 
+    target_data = data[0] if isinstance(data, list) else data
+
     print('process: check word id, begin and end')
-    wd_check_logs = check_docs(data['document'])
+    wd_check_logs = check_docs(target_data['document'])
 
     os.makedirs('./out', exist_ok=True)
     ext_removed = os.path.splitext(os.path.normpath(input_json_path))[0]
